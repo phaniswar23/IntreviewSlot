@@ -9,6 +9,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import { useAuth } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 // Route guard for Admin dashboard protection
 function AdminRoute({ children }) {
@@ -71,6 +72,7 @@ export default function App() {
             </main>
           </div>
         </Router>
+        <Analytics />
       </BookingProvider>
     </AuthProvider>
   );
