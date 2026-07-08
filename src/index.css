@@ -1,0 +1,159 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@theme {
+  --color-brand-50: #f5f7ff;
+  --color-brand-100: #ebf0ff;
+  --color-brand-200: #dbe2ff;
+  --color-brand-300: #c2cfff;
+  --color-brand-400: #9db0ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
+  --color-brand-950: #1e1b4b;
+  
+  --animate-gradient-x: gradient-x 15s ease infinite;
+  --animate-fade-in: fadeIn 0.5s ease-out forwards;
+  --animate-slide-up: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  @apply bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50;
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl dark:bg-slate-900/60 dark:border-slate-800/40;
+}
+
+.glass-panel-hover {
+  @apply transition-all duration-300 hover:bg-white/80 hover:shadow-2xl hover:border-brand-500/30 dark:hover:bg-slate-900/80 dark:hover:border-brand-500/20;
+}
+
+.glass-card {
+  @apply bg-white/40 dark:bg-slate-900/40 backdrop-blur-sm border border-slate-200/50 dark:border-slate-800/50 rounded-2xl shadow-sm;
+}
+
+/* Premium Gradients */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400;
+}
+
+.gradient-bg {
+  @apply bg-gradient-to-tr from-blue-50 via-indigo-50/50 to-purple-50 dark:from-slate-950 dark:via-indigo-950/20 dark:to-slate-950;
+}
+
+.gradient-hero-glow {
+  filter: blur(140px);
+  @apply absolute rounded-full bg-gradient-to-tr from-blue-500/20 to-purple-500/20 pointer-events-none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-800 rounded-full hover:bg-slate-400 dark:hover:bg-slate-700;
+}
+
+/* Calendar styling updates */
+.fc {
+  --fc-border-color: rgba(226, 232, 240, 0.4);
+  --fc-button-bg-color: rgb(99, 102, 241);
+  --fc-button-border-color: rgb(99, 102, 241);
+  --fc-button-hover-bg-color: rgb(79, 70, 229);
+  --fc-button-active-bg-color: rgb(67, 56, 202);
+}
+
+.dark .fc {
+  --fc-border-color: rgba(51, 65, 85, 0.4);
+  --fc-page-bg-color: #0f172a;
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  @apply text-slate-700 dark:text-slate-300 font-medium no-underline p-1 sm:p-2 text-xs sm:text-sm;
+}
+
+.fc .fc-toolbar-title {
+  @apply text-sm sm:text-lg font-bold text-slate-800 dark:text-slate-100;
+}
+
+.fc .fc-button {
+  @apply px-2 py-1 text-xs rounded-lg;
+}
+
+/* Make calendar cells more compact on all screens */
+.fc .fc-daygrid-day-frame {
+  @apply min-h-[40px] sm:min-h-[48px] p-0.5;
+}
+
+.fc .fc-bg-event {
+  @apply opacity-100 bg-indigo-500/15 dark:bg-indigo-500/25;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  @apply bg-indigo-500/10 dark:bg-indigo-500/20;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+  border: 1px solid var(--fc-border-color) !important;
+}
+
+.fc-daygrid-day {
+  @apply transition-colors duration-200 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-900;
+}
+
+.fc-day-disabled {
+  @apply opacity-45 cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent;
+}
+
+/* Hide event dot/text and show simple highlight background */
+.fc-daygrid-bg-harness {
+  @apply rounded-lg overflow-hidden;
+}
+
+.fc-daygrid-day-events {
+  display: none !important;
+}
+
+/* Native Date Input Picker styling for dark/light mode compatibility */
+input[type="date"] {
+  color-scheme: light;
+  cursor: pointer;
+}
+
+.dark input[type="date"] {
+  color-scheme: dark;
+  color: #ffffff;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  @apply opacity-70 hover:opacity-100 cursor-pointer;
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
