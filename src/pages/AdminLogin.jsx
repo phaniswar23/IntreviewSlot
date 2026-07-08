@@ -80,9 +80,6 @@ export default function AdminLogin() {
                   required
                 />
               </div>
-              <span className="text-[10px] text-slate-450 dark:text-slate-505 mt-1 block">
-                * Local Mock Hint: Email is `admin@neuromorphix.ai` and password is `admin112233`
-              </span>
             </div>
 
             {/* Error message */}
