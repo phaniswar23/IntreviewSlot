@@ -83,7 +83,7 @@ export default function AdminDashboard() {
 
   // Single Slot form state
   const [slotDate, setSlotDate] = useState("");
-  const [slotTime, setSlotTime] = useState("10:00 AM");
+  const [rawTime, setRawTime] = useState("10:00");
   const [slotType, setSlotType] = useState("Virtual");
   const [slotCapacity, setSlotCapacity] = useState(1);
 
@@ -154,12 +154,26 @@ export default function AdminDashboard() {
 
   const sortedDates = Object.keys(groupedSlots).sort();
 
+  // Helper function to format 24h time to 12h AM/PM
+  const formatTime12Hour = (time24) => {
+    if (!time24) return "";
+    const [hoursStr, minutesStr] = time24.split(":");
+    let hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const minutesFormatted = minutes < 10 ? `0${minutes}` : minutes;
+    return `${hours}:${minutesFormatted} ${ampm}`;
+  };
+
   // Create Single Slot Action
   const handleAddSlot = async (e) => {
     e.preventDefault();
-    if (!slotDate || !slotTime) return;
+    if (!slotDate || !rawTime) return;
     try {
-      await addSlot({ date: slotDate, time: slotTime });
+      const formattedTime = formatTime12Hour(rawTime);
+      await addSlot({ date: slotDate, time: formattedTime });
       triggerToast("Interview slot successfully created.");
       setIsAddModalOpen(false);
       setSlotDate("");
@@ -1079,37 +1093,23 @@ export default function AdminDashboard() {
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Time</label>
                   <input
-                    type="text"
-                    placeholder="e.g. 10:30 AM"
-                    value={slotTime}
-                    onChange={(e) => setSlotTime(e.target.value)}
+                    type="time"
+                    value={rawTime}
+                    onChange={(e) => setRawTime(e.target.value)}
                     className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/45 dark:bg-slate-950/45 text-xs outline-none focus:ring-1 focus:ring-indigo-500 min-h-[48px]"
                     required
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Capacity</label>
-                    <input
-                      type="number"
-                      value={slotCapacity}
-                      onChange={(e) => setSlotCapacity(Number(e.target.value))}
-                      className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/45 dark:bg-slate-955/45 text-xs outline-none min-h-[48px]"
-                      min="1"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Type</label>
-                    <select
-                      value={slotType}
-                      onChange={(e) => setSlotType(e.target.value)}
-                      className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/45 dark:bg-slate-955/45 text-xs outline-none min-h-[48px]"
-                    >
-                      <option value="Virtual">Virtual / Remote</option>
-                      <option value="In-Person">In-Person</option>
-                    </select>
-                  </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Capacity</label>
+                  <input
+                    type="number"
+                    value={slotCapacity}
+                    onChange={(e) => setSlotCapacity(Number(e.target.value))}
+                    className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/45 dark:bg-slate-950/45 text-xs outline-none min-h-[48px]"
+                    min="1"
+                  />
                 </div>
 
                 <button
